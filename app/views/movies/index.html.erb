@@ -1,0 +1,29 @@
+<h1>Filmes</h1>
+
+<% if @movies.present? %>
+  <ul>
+    <% @movies.each do |movie| %>
+      <li>
+        <% if movie.is_a?(Hash) %>
+          <%= movie["Title"] %> (<%= movie["Year"] %>)
+          <%= button_to 'Adicionar aos Favoritos', movies_path(imdb_id: movie["imdbID"]), method: :post %>
+        <% else %>
+          <%= movie.title %>
+        <% end %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Nenhum filme encontrado.</p>
+<% end %>
+
+<hr>
+
+<h2>Buscar Filmes</h2>
+
+<%= form_tag search_movies_path, method: :get do %>
+  <%= text_field_tag :q, params[:q], placeholder: "Digite o título do filme" %>
+  <%= submit_tag "Buscar" %>
+<% end %>
+
+<%= link_to 'Adicionar Novo Filme', new_movie_path %>

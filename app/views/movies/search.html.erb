@@ -1,0 +1,29 @@
+<h1>Resultados da Busca</h1>
+
+<% if @movies.present? %>
+  <ul>
+    <% @movies.each do |movie| %>
+      <li>
+        <%= movie['Title'] %> (<%= movie['Year'] %>)
+        <%= link_to 'Adicionar aos Favoritos', movies_path(movie_params(movie)), method: :post %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>Nenhum filme encontrado.</p>
+<% end %>
+
+<%= link_to 'Voltar', root_path %>
+
+<%# Helper para criar os parâmetros do filme %>
+<% def movie_params(movie) %>
+  {
+    title: movie['Title'],
+    year: movie['Year'],
+    genre: movie['Genre'],
+    director: movie['Director'],
+    plot: movie['Plot'],
+    imdb_id: movie['imdbID'],
+    poster: movie['Poster']
+  }
+<% end %>

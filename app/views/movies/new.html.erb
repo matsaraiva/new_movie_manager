@@ -1,0 +1,26 @@
+<!-- app/views/movies/new.html.erb -->
+
+<h1>Adicionar Novo Filme</h1>
+
+<%= form_with url: search_movies_path, method: :get, local: true do |form| %>
+  <div>
+    <%= form.label :q, "Buscar Filme" %>
+    <%= form.text_field :q %>
+  </div>
+
+  <div>
+    <%= form.submit "Buscar" %>
+  </div>
+<% end %>
+
+<% if @movies.present? %>
+  <h2>Resultados da Busca</h2>
+  <ul>
+    <% @movies.each do |movie| %>
+      <li>
+        <%= movie['Title'] %> (<%= movie['Year'] %>)
+        <%= button_to 'Adicionar aos Favoritos', movies_path(imdb_id: movie['imdbID']), method: :post %>
+      </li>
+    <% end %>
+  </ul>
+<% end %>
