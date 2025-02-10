@@ -1,0 +1,14 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\app",
+    "\\app\\assets\\config",
+    "\\app\\assets\\javascripts",
+    "\\app\\assets\\stylesheets",
+    "\\app\\controllers",
+    "\\app\\models",
+    "\\app\\views\\movies"
+  ],
+  "SelectedNode": "\\Gemfile",
+  "PreviewInSolutionExplorer": false
+}
