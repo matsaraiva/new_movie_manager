@@ -28,7 +28,9 @@ class MoviesController < ApplicationController
       year: movie_details['Year'],
       genre: movie_details['Genre'],
       director: movie_details['Director'],
-      plot: movie_details['Plot']
+      plot: movie_details['Plot'],
+      imdb_id: movie_details['imdbID'],
+      poster: movie_details['Poster']
     )
 
     if @movie.save

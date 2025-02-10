@@ -13,4 +13,15 @@ class Movie
 
   validates :title, presence: true
   validates :imdb_id, uniqueness: true
+
+  before_save :log_save
+  after_save :log_after_save
+
+  def log_save
+    Rails.logger.info "Before Save: #{self.title}"
+  end
+
+  def log_after_save
+    Rails.logger.info "After Save: #{self.title}"
+  end
 end
