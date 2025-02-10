@@ -1,78 +1,131 @@
 # README - Movie Manager
 
-Este README descreve os passos necessários para executar o aplicativo Movie Manager, um projeto desenvolvido como parte de um desafio de programação.
-
 ## Visão Geral
 
-O Movie Manager é um aplicativo web simples que permite aos usuários visualizar uma lista de filmes e realizar buscas por título.  Este projeto foi desenvolvido utilizando Ruby on Rails e Mongoid como banco de dados.
+O Movie Manager é um aplicativo web que permite aos usuários visualizar uma lista de filmes e realizar buscas por título. Este projeto foi desenvolvido utilizando Ruby on Rails e Mongoid como banco de dados.
 
 ## Funcionalidades
 
-*   Listagem de filmes: Exibe uma lista de filmes disponíveis.
-*   Busca de filmes: Permite aos usuários buscar filmes por título.
+- **Listagem de filmes**: Exibe uma lista de filmes disponíveis.
+- **Busca de filmes**: Permite aos usuários buscar filmes por título.
 
 ## Tecnologias Utilizadas
 
-*   Ruby on Rails 7 (ou a versão que você utilizou)
-*   Mongoid (ou o banco de dados que você utilizou)
-*   [Outras gems ou tecnologias relevantes]
+- Ruby on Rails 7
+- Mongoid (MongoDB)
+- [Outras gems ou tecnologias relevantes]
 
 ## Dependências
 
-*   Ruby (especifique a versão)
-*   Bundler (para gerenciamento de gems)
-*   Node.js e Yarn (se você utilizou Javascript e/ou frontend framework)
-*   [Outras dependências do sistema]
+- Ruby 3.2.2
+- Bundler (para gerenciamento de gems)
+- Docker e Docker Compose
+- Node.js e Yarn (se aplicável)
+- [Outras dependências do sistema]
 
-## Configuração
+## Configuração e Instalação
 
-1.  **Clone o repositório:**
+1. **Clone o repositório:**
 
     ```bash
-    git clone [https://github.com/seu_nome_de_usuario/nome_do_repositorio.git](https://www.google.com/search?q=https://github.com/seu_nome_de_usuario/nome_do_repositorio.git)
-    cd nome_do_repositorio
+    git clone https://github.com/matsaraiva/new_movie_manager.git
+    cd new_movie_manager
     ```
 
-2.  **Instale as gems:**
+2. **Instale as gems:**
 
     ```bash
     bundle install
     ```
 
-3.  **Configure o banco de dados:**
+3. **Configure o banco de dados:**
 
-    *   **Mongoid:**
-        *   Certifique-se de que o Mongoid esteja configurado corretamente no arquivo `config/mongoid.yml`.
-        *   Execute as migrações do Mongoid:
+    - **Mongoid:**
+      - Certifique-se de que o Mongoid esteja configurado corretamente no arquivo `config/mongoid.yml`.
 
-        ```bash
-        rails db:migrate
-        ```
+      ```yaml
+      development:
+        clients:
+          default:
+            database: movie_manager_development
+            hosts:
+              - localhost:27017
+            options:
+              server_selection_timeout: 5
+        options:
+          raise_not_found_error: false
 
-    *   **Outros bancos de dados:**
-        *   Siga as instruções específicas para o seu banco de dados.
+      test:
+        clients:
+          default:
+            database: movie_manager_test
+            hosts:
+              - localhost:27017
+            options:
+              read:
+                mode: :primary
+              max_pool_size: 1
 
-4.  **Instale as dependências de JavaScript (se aplicável):**
+      production:
+        clients:
+          default:
+            database: movie_manager_production
+            hosts:
+              - db:27017
+            options:
+              server_selection_timeout: 5
+        options:
+          raise_not_found_error: false
+      ```
+
+4. **Instale as dependências de JavaScript (se aplicável):**
 
     ```bash
     yarn install # Ou npm install, dependendo do seu gerenciador de pacotes
     ```
 
-## Executando o aplicativo
+## Executando o Aplicativo com Docker
 
-1.  **Inicie o servidor Rails:**
+1. **Inicie os contêineres com Docker Compose:**
 
     ```bash
-    rails server
+    docker-compose up --build
     ```
 
-2.  **Acesse o aplicativo:**
+2. **Acesse o aplicativo:**
 
     Abra o seu navegador e navegue para `http://localhost:3000`.
 
-## Próximos Passos
+## Detalhes sobre a Conexão com o Banco de Dados
 
-Este README será atualizado em breve com as seguintes informações:
+A conexão com o banco de dados MongoDB é configurada no arquivo `config/mongoid.yml`. Certifique-se de que a configuração está correta para os diferentes ambientes (development, test, production). No ambiente de produção, o MongoDB é configurado para se conectar ao contêiner `db`.
 
-*   **Vídeo de apresentação:** Um vídeo demonstrando a funcionalidade do aplicativo e o processo de desenvolvimento será adicionado ao repositório.
-*   **Documentação completa:** A documentação detalhada do código, incluindo explicações sobre a arquitetura, os models, controllers e views, será incluída.
+## Descrição dos Endpoints da API OMDb Utilizados e Integração
+
+- **Endpoint de Busca por Título:**
+  - URL: `http://www.omdbapi.com/?s=<título>&apikey=<sua_api_key>`
+  - Descrição: Busca filmes por título.
+
+- **Endpoint de Detalhes do Filme:**
+  - URL: `http://www.omdbapi.com/?i=<imdb_id>&apikey=<sua_api_key>`
+  - Descrição: Obtém detalhes completos de um filme usando o ID do IMDb.
+
+### Integração com a API OMDb
+
+A integração com a API OMDb é feita através de um serviço `OmdbService`. Aqui está um exemplo básico de como o serviço está configurado:
+
+```ruby
+class OmdbService
+  include HTTParty
+  base_uri 'http://www.omdbapi.com'
+  API_KEY = 'sua_chave_api_aqui'
+
+  def search_movies(query)
+    self.class.get("/", query: { s: query, apikey: API_KEY })
+  end
+
+  def get_movie_details(imdb_id)
+    self.class.get("/", query: { i: imdb_id, apikey: API_KEY })
+  end
+end
+```
