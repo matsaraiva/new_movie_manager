@@ -1,3 +1,4 @@
+<!-- app/views/movies/index.html.erb -->
 <h1>Filmes</h1>
 
 <% if @movies.present? %>
@@ -8,7 +9,7 @@
           <%= movie["Title"] %> (<%= movie["Year"] %>)
           <%= button_to 'Adicionar aos Favoritos', movies_path(imdb_id: movie["imdbID"]), method: :post %>
         <% else %>
-          <%= movie.title %>
+          <%= link_to movie.title, movie_path(movie) %>
         <% end %>
       </li>
     <% end %>
