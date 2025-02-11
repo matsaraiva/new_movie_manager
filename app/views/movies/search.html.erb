@@ -1,19 +1,24 @@
-<h1>Resultados da Busca</h1>
+<!-- app/views/movies/search_results.html.erb -->
+<div class="container mt-4">
+    <h1 class="text-center mb-4">Resultados da Busca</h1>
 
-<% if @movies.present? %>
-  <ul>
-    <% @movies.each do |movie| %>
-      <li>
-        <%= movie['Title'] %> (<%= movie['Year'] %>)
-        <%= link_to 'Adicionar aos Favoritos', movies_path(movie_params(movie)), method: :post %>
-      </li>
+    <% if @movies.present? %>
+    <ul class="list-group">
+        <% @movies.each do |movie| %>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span><%= movie['Title'] %> (<%= movie['Year'] %>)</span>
+            <%= button_to 'Adicionar aos Favoritos', movies_path(movie_params(movie)), method: :post, class: "btn btn-success btn-sm" %>
+        </li>
+        <% end %>
+    </ul>
+    <% else %>
+    <p class="text-center">Nenhum filme encontrado.</p>
     <% end %>
-  </ul>
-<% else %>
-  <p>Nenhum filme encontrado.</p>
-<% end %>
 
-<%= link_to 'Voltar', root_path %>
+    <div class="text-center mt-4">
+        <%= link_to 'Voltar', root_path, class: "btn btn-secondary" %>
+    </div>
+</div>
 
 <%# Helper para criar os parâmetros do filme %>
 <% def movie_params(movie) %>

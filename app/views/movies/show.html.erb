@@ -1,13 +1,22 @@
 <!-- app/views/movies/show.html.erb -->
-
-<h1><%= @movie.title %></h1>
-<p><strong>Ano:</strong> <%= @movie.year %></p>
-<p><strong>Gênero:</strong> <%= @movie.genre %></p>
-<p><strong>Diretor:</strong> <%= @movie.director %></p>
-<p><strong>Sinopse:</strong> <%= @movie.plot %></p>
-<p><strong>Comentário:</strong> <%= @movie.comment %></p>
-<%= link_to 'Editar Comentário', edit_movie_path(@movie) %>
-<%= link_to 'Remover dos Favoritos', movie_path(@movie), method: :delete, data: { confirm: 'Você tem certeza?' } %>
-<%= link_to 'Voltar', root_path %>
-
-
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h1 class="card-title text-center mb-4"><%= @movie.title %></h1>
+                    <p class="card-text"><strong>Ano:</strong> <%= @movie.year %></p>
+                    <p class="card-text"><strong>Gênero:</strong> <%= @movie.genre %></p>
+                    <p class="card-text"><strong>Diretor:</strong> <%= @movie.director %></p>
+                    <p class="card-text"><strong>Sinopse:</strong> <%= @movie.plot %></p>
+                    <p class="card-text"><strong>Comentário:</strong> <%= @movie.comment %></p>
+                    <div class="d-flex justify-content-between mt-4">
+                        <%= link_to 'Editar Comentário', edit_movie_path(@movie), class: "btn btn-primary" %>
+                        <%= link_to 'Remover dos Favoritos', movie_path(@movie), method: :delete, data: { confirm: 'Você tem certeza?' }, class: "btn btn-danger" %>
+                        <%= link_to 'Voltar', root_path, class: "btn btn-secondary" %>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

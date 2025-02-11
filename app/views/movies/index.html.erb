@@ -1,30 +1,37 @@
 <!-- app/views/movies/index.html.erb -->
-<h1>Filmes</h1>
+<div class="container mt-4">
+    <h2 class="text-center mb-4">Filmes</h2>
 
-<% if @movies.present? %>
-  <ul>
-    <% @movies.each do |movie| %>
-      <li>
-        <% if movie.is_a?(Hash) %>
-          <%= movie["Title"] %> (<%= movie["Year"] %>)
-          <%= button_to 'Adicionar aos Favoritos', movies_path(imdb_id: movie["imdbID"]), method: :post %>
-        <% else %>
-          <%= link_to movie.title, movie_path(movie) %>
+    <% if @movies.present? %>
+    <div class="row">
+        <% @movies.each do |movie| %>
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <div class="card-body">
+                    <% if movie.is_a?(Hash) %>
+                    <h5 class="card-title"><%= movie["Title"] %> (<%= movie["Year"] %>)</h5>
+                    <%= button_to 'Adicionar aos Favoritos', movies_path(imdb_id: movie["imdbID"]), method: :post, class: "btn btn-primary" %>
+                    <% else %>
+                    <h5 class="card-title"><%= link_to movie.title, movie_path(movie), class: "text-decoration-none" %></h5>
+                    <% end %>
+                </div>
+            </div>
+        </div>
         <% end %>
-      </li>
+    </div>
+    <% else %>
+    <p class="text-center">Nenhum filme encontrado.</p>
     <% end %>
-  </ul>
-<% else %>
-  <p>Nenhum filme encontrado.</p>
-<% end %>
 
-<hr>
+    <hr class="my-4">
 
-<h2>Buscar Filmes</h2>
-
-<%= form_tag search_movies_path, method: :get do %>
-  <%= text_field_tag :q, params[:q], placeholder: "Digite o título do filme" %>
-  <%= submit_tag "Buscar" %>
-<% end %>
-
-<%= link_to 'Adicionar Novo Filme', new_movie_path %>
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2 class="text-center mb-3">Buscar Filmes</h2>
+            <%= form_tag search_movies_path, method: :get, class: "d-flex mb-4" do %>
+            <%= text_field_tag :q, params[:q], placeholder: "Digite o título do filme", class: "form-control me-2" %>
+            <%= submit_tag "Buscar", class: "btn btn-primary" %>
+            <% end %>
+        </div>
+    </div>
+</div>
