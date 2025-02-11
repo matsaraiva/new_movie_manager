@@ -11,7 +11,7 @@ gem 'puma'
 gem 'httparty'
 gem 'importmap-rails'
 gem 'dotenv-rails'
-gem 'bootstrap', '~> 5.1.0'
+gem 'bootstrap', '~> 5.3.3'
 gem 'popper_js', '>= 2.9.3', '< 3'
 
 # Adicionando gems necessárias para processamento de assets
