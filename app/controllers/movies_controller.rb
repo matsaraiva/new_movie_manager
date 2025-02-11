@@ -1,5 +1,6 @@
-# app/controllers/movies_controller.rb
 class MoviesController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: [:create]
+
   def index
     @movies = Movie.all
   end
